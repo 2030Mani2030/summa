@@ -318,6 +318,6 @@ def get_caption_model():
     sample_enc_out = caption_model.encoder(sample_img_embed, training=False)
     caption_model.decoder(sample_y, sample_enc_out, training=False)
 
-    caption_model.load_weights('saved_models\image_captioning_transformer_weights.h5')
+    caption_model.load_weights(r'saved_models\image_captioning_transformer_weights_1.h5')
 
     return caption_model

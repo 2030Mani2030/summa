@@ -13,10 +13,10 @@ caption_model = get_model()
 
 img_url = st.text_input(label='Enter Image URL')
 
-if (img_url != "") or (img_url != None):
+if (img_url != "") and (img_url != None):
     img = Image.open(requests.get(img_url, stream=True).raw)
     st.image(img)
 
-    img = np.array(img)
-    pred_caption = generate_caption(img, caption_model)
+    img.save('tmp.jpg')
+    pred_caption = generate_caption('tmp.jpg', caption_model)
     st.write(pred_caption)
