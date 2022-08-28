@@ -6,7 +6,7 @@ import numpy as np
 
 # CONTANTS
 MAX_LENGTH = 40
-VOCABULARY_SIZE = 10000
+# VOCABULARY_SIZE = 10000
 BATCH_SIZE = 32
 BUFFER_SIZE = 1000
 EMBEDDING_DIM = 512
@@ -14,10 +14,10 @@ UNITS = 512
 
 
 # LOADING DATA
-vocab = pickle.load(open('saved_models/vocab.file', 'rb'))
+vocab = pickle.load(open('saved_vocabulary/vocab_1.file', 'rb'))
 
 tokenizer = tf.keras.layers.TextVectorization(
-    max_tokens=VOCABULARY_SIZE,
+    # max_tokens=VOCABULARY_SIZE,
     standardize=None,
     output_sequence_length=MAX_LENGTH,
     vocabulary=vocab
@@ -321,8 +321,8 @@ def get_caption_model():
     caption_model.decoder(sample_y, sample_enc_out, training=False)
 
     try:
-        caption_model.load_weights('saved_models/image_captioning_transformer_weights_3.h5')
+        caption_model.load_weights('saved_models/image_captioning_transformer_weights_2.h5')
     except FileNotFoundError:
-        caption_model.load_weights('Image-Captioning/saved_models/image_captioning_transformer_weights_3.h5')
+        caption_model.load_weights('Image-Captioning/saved_models/image_captioning_transformer_weights_2.h5')
 
     return caption_model
