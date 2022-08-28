@@ -267,12 +267,14 @@ def load_image_from_path(img_path):
     return img
 
 
-def generate_caption(img, caption_model):
+def generate_caption(img, caption_model, add_noise=False):
     if isinstance(img, str):
         img = load_image_from_path(img)
     
-    if isinstance(img, np.ndarray):
-        img = tf.convert_to_tensor(img)
+    if add_noise == True:
+        noise = tf.random.normal(img.shape)*0.1
+        img = (img + noise)
+        img = (img - tf.reduce_min(img))/(tf.reduce_max(img) - tf.reduce_min(img))
     
     img = tf.expand_dims(img, axis=0)
     img_embed = caption_model.cnn_model(img)
@@ -318,6 +320,9 @@ def get_caption_model():
     sample_enc_out = caption_model.encoder(sample_img_embed, training=False)
     caption_model.decoder(sample_y, sample_enc_out, training=False)
 
-    caption_model.load_weights(r'saved_models\image_captioning_transformer_weights_1.h5')
+    try:
+        caption_model.load_weights('saved_models/image_captioning_transformer_weights_1.h5')
+    except FileNotFoundError:
+        caption_model.load_weights('Image-Captioning/saved_models/image_captioning_transformer_weights_1.h5')
 
     return caption_model
