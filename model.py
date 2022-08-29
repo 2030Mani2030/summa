@@ -21,12 +21,13 @@ tokenizer = tf.keras.layers.TextVectorization(
     standardize=None,
     output_sequence_length=MAX_LENGTH,
     vocabulary=vocab
-    )
+)
 
 idx2word = tf.keras.layers.StringLookup(
     mask_token="",
     vocabulary=tokenizer.get_vocabulary(),
-    invert=True)
+    invert=True
+)
 
 
 # MODEL
