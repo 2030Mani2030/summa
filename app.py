@@ -1,4 +1,5 @@
 import io
+import os
 import streamlit as st
 import requests
 import numpy as np
@@ -33,6 +34,7 @@ if (img_url != "") and (img_url != None):
     img.save('tmp.jpg')
     st.image(img)
     predict()
+    os.remove('tmp.jpg')
 
 
 img = st.file_uploader(label='Upload Image', type=['jpg', 'png'])
@@ -44,3 +46,4 @@ if img != None:
     img.save('tmp.jpg')
     st.image(img)
     predict()
+    os.remove('tmp.jpg')
