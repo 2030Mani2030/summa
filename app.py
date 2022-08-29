@@ -15,16 +15,21 @@ caption_model = get_model()
 
 
 def predict():
+    captions = []
     pred_caption = generate_caption('tmp.jpg', caption_model)
 
-    st.write('Predicted Captions:')
-    st.write(pred_caption)
+    st.markdown('#### Predicted Captions:')
+    captions.append(pred_caption)
 
     for _ in range(4):
         pred_caption = generate_caption('tmp.jpg', caption_model, add_noise=True)
-        st.write(pred_caption)
+        if pred_caption not in captions:
+            captions.append(pred_caption)
+    
+    for c in captions:
+        st.write(c)
 
-
+st.title('Image Captioner')
 img_url = st.text_input(label='Enter Image URL')
 
 if (img_url != "") and (img_url != None):
@@ -37,6 +42,7 @@ if (img_url != "") and (img_url != None):
     os.remove('tmp.jpg')
 
 
+st.markdown('<center style="opacity: 70%">OR</center>', unsafe_allow_html=True)
 img = st.file_uploader(label='Upload Image', type=['jpg', 'png'])
 
 if img != None:
