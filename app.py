@@ -2,7 +2,6 @@ import io
 import os
 import streamlit as st
 import requests
-import numpy as np
 from PIL import Image
 from model import get_caption_model, generate_caption
 
@@ -37,16 +36,15 @@ if (img_url != "") and (img_url != None):
     img = img.convert('RGB')
     st.image(img)
     img.save('tmp.jpg')
-    st.image(img)
     predict()
     os.remove('tmp.jpg')
 
 
 st.markdown('<center style="opacity: 70%">OR</center>', unsafe_allow_html=True)
-img = st.file_uploader(label='Upload Image', type=['jpg', 'png'])
+img_upload = st.file_uploader(label='Upload Image', type=['jpg', 'png'])
 
-if img != None:
-    img = img.read()
+if img_upload != None:
+    img = img_upload.read()
     img = Image.open(io.BytesIO(img))
     img = img.convert('RGB')
     img.save('tmp.jpg')

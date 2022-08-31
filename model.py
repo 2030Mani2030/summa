@@ -14,7 +14,7 @@ UNITS = 512
 
 
 # LOADING DATA
-vocab = pickle.load(open('saved_vocabulary/vocab_1.file', 'rb'))
+vocab = pickle.load(open('saved_vocabulary/vocab_coco.file', 'rb'))
 
 tokenizer = tf.keras.layers.TextVectorization(
     # max_tokens=VOCABULARY_SIZE,
@@ -36,7 +36,6 @@ def CNN_Encoder():
         include_top=False,
         weights='imagenet'
     )
-    inception_v3.trainable = False
 
     output = inception_v3.output
     output = tf.keras.layers.Reshape(
@@ -264,7 +263,7 @@ def load_image_from_path(img_path):
     img = tf.io.read_file(img_path)
     img = tf.io.decode_jpeg(img, channels=3)
     img = tf.keras.layers.Resizing(299, 299)(img)
-    img = img / 255.
+    img = tf.keras.applications.inception_v3.preprocess_input(img)
     return img
 
 
@@ -322,8 +321,8 @@ def get_caption_model():
     caption_model.decoder(sample_y, sample_enc_out, training=False)
 
     try:
-        caption_model.load_weights('saved_models/image_captioning_transformer_weights_2.h5')
+        caption_model.load_weights('saved_models/image_captioning_coco_weights.h5')
     except FileNotFoundError:
-        caption_model.load_weights('Image-Captioning/saved_models/image_captioning_transformer_weights_2.h5')
+        caption_model.load_weights('Image-Captioning/saved_models/image_captioning_coco_weights.h5')
 
     return caption_model
