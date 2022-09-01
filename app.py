@@ -41,7 +41,7 @@ if (img_url != "") and (img_url != None):
 
 
 st.markdown('<center style="opacity: 70%">OR</center>', unsafe_allow_html=True)
-img_upload = st.file_uploader(label='Upload Image', type=['jpg', 'png'])
+img_upload = st.file_uploader(label='Upload Image', type=['jpg', 'png', 'jpeg'])
 
 if img_upload != None:
     img = img_upload.read()
